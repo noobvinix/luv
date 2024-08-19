@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF+1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Do You Love Me?</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+        overflow: hidden;
+    }
+    .container {
+        text-align: center;
+    }
+    .question-box {
+        border: 2px solid #333;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #fff;
+        display: inline-block;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+    }
+    .question {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    .answer-btn {
+        padding: 10px 20px;
+        font-size: 18px;
+        margin: 0 10px;
+        cursor: pointer;
+    }
+    .hidden {
+        display: none;
+    }
+    .heart {
+        font-size: 24px;
+        position: absolute;
+        animation: fall linear infinite;
+    }
+    
+    @keyframes fall {
+        0% {
+            transform: translateY(-800px) rotate(0deg);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(120vh) rotate(360deg);
+            opacity: 1;
+        }
+    }
+</style>
+<script>
+    function showLoveMessage() {
+        let loveMessageBox = document.createElement("div");
+        loveMessageBox.classList.add("love-message-box");
+        let loveMessage = document.createElement("div");
+        loveMessage.classList.add("love-message");
+        loveMessage.innerHTML = "I love you too ❤️❤️❤️";
+        loveMessageBox.appendChild(loveMessage);
+        document.body.appendChild(loveMessageBox);
+        document.querySelector('.question-box').classList.add('hidden');
+        
+        // Create and append heart elements
+        for (let i = 0; i < 50; i++) {
+            createHeart();
+        }
+    }
+
+    function createHeart() {
+        let heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️"; // Unicode for heart emoji
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.animationDuration = (Math.random() * 1.5 + 0.5) + "s"; // Randomize falling speed
+        heart.style.opacity = Math.random(); // Randomize opacity
+        document.body.appendChild(heart);
+    }
+
+    function dodgeQuestionBox() {
+        let questionBox = document.querySelector('.question-box');
+        let dodgeRangeX = 100; // Adjust as needed
+        let dodgeRangeY = 100; // Adjust as needed
+        let initialLeft = parseFloat(questionBox.style.left) || window.innerWidth / 2 - questionBox.offsetWidth / 2;
+        let initialTop = parseFloat(questionBox.style.top) || window.innerHeight / 2 - questionBox.offsetHeight / 2;
+        let newX = Math.max(Math.min(initialLeft + (Math.random() * dodgeRangeX - dodgeRangeX / 2), window.innerWidth - questionBox.offsetWidth), 0);
+        let newY = Math.max(Math.min(initialTop + (Math.random() * dodgeRangeY - dodgeRangeY / 2), window.innerHeight - questionBox.offsetHeight), 0);
+        questionBox.style.left = newX + 'px';
+        questionBox.style.top = newY + 'px';
+        document.querySelector('.question-box').classList.remove('hidden');
+    }
+</script>
+</head>
+<body>
+
+<div class="container">
+    <div class="question-box">
+        <div class="question">Do you love me?</div>
+        <button class="answer-btn" onclick="showLoveMessage()">Yes</button>
+        <button class="answer-btn" onclick="dodgeQuestionBox()">No</button>
+    </div>
+</div>
+
+</body>
+</html>
